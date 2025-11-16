@@ -1,0 +1,17 @@
+# Secrets
+.env
+
+# Logs
+*.log
+api.log
+
+# Python
+__pycache__/
+*.pyc
+
+# IDE
+.vscode/
+.idea/
+
+# Data (if sensitive)
+data/*.txt
