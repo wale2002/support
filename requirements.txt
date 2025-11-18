@@ -1,17 +1,48 @@
+# # # # fastapi==0.115.0
+# # # # uvicorn[standard]==0.32.0
+# # # # python-multipart==0.0.9
+# # # # langchain==1.0.7  # Already installed; keeps 1.0 features
+# # # # langchain-community==0.3.31  # Use a 0.3.x version compatible with langchain 1.0.7 (avoids potential mismatches; latest 0.3 is 0.3.31)
+# # # # langchain-ollama==1.0.0  # Latest; works with 1.0
+# # # # langchain-core==1.0.5  # Latest; required by langchain 1.0.7
+# # # # python-dotenv==1.0.1
+# # # # requests==2.32.5  # Matches langchain-community's minimum; includes all prior security patches
+# # # # faiss-cpu==1.12.0  # Latest compatible version
+# # # # sentence-transformers==3.1.1  # Updated for better embeddings
+# # # # torch==2.9.1  # Updated to latest stable (CPU-compatible)
+# # # # pytest==8.3.3  # For tests
+
+
 # # # fastapi==0.115.0
 # # # uvicorn[standard]==0.32.0
 # # # python-multipart==0.0.9
-# # # langchain==1.0.7  # Already installed; keeps 1.0 features
-# # # langchain-community==0.3.31  # Use a 0.3.x version compatible with langchain 1.0.7 (avoids potential mismatches; latest 0.3 is 0.3.31)
-# # # langchain-ollama==1.0.0  # Latest; works with 1.0
-# # # langchain-core==1.0.5  # Latest; required by langchain 1.0.7
 # # # python-dotenv==1.0.1
-# # # requests==2.32.5  # Matches langchain-community's minimum; includes all prior security patches
-# # # faiss-cpu==1.12.0  # Latest compatible version
-# # # sentence-transformers==3.1.1  # Updated for better embeddings
-# # # torch==2.9.1  # Updated to latest stable (CPU-compatible)
-# # # pytest==8.3.3  # For tests
+# # # requests==2.32.5
 
+# # # # LangChain core stack (use recent compatible versions instead of very old ones)
+# # # langchain==0.3.7
+# # # langchain-community==0.3.7
+# # # langchain-core==0.3.8
+# # # langchain-ollama==0.2.0
+
+# # # # THIS IS THE MISSING ONE THAT CAUSES YOUR CRASH
+# # # langchain-huggingface==0.1.2   # provides HuggingFaceEmbeddings
+
+# # # # Embeddings & vector store
+# # # sentence-transformers==3.1.1
+# # # faiss-cpu==1.9.0
+
+# # # # Torch (CPU-only for Render)
+# # # torch==2.4.1 --index-url https://download.pytorch.org/whl/cpu
+# # # torchaudio==2.4.1 --index-url https://download.pytorch.org/whl/cpu
+# # # torchvision==0.19.1 --index-url https://download.pytorch.org/whl/cpu
+
+# # # # Optional but recommended
+# # # pydantic==2.9.2
+# # # pydantic-settings==2.5.2
+
+# # # # Testing (optional)
+# # # pytest==8.3.3
 
 # # fastapi==0.115.0
 # # uvicorn[standard]==0.32.0
@@ -19,30 +50,29 @@
 # # python-dotenv==1.0.1
 # # requests==2.32.5
 
-# # # LangChain core stack (use recent compatible versions instead of very old ones)
+# # # LangChain (current stable as of Nov 2025)
 # # langchain==0.3.7
 # # langchain-community==0.3.7
 # # langchain-core==0.3.8
 # # langchain-ollama==0.2.0
+# # langchain-huggingface==0.1.2   # this fixed your previous crash
 
-# # # THIS IS THE MISSING ONE THAT CAUSES YOUR CRASH
-# # langchain-huggingface==0.1.2   # provides HuggingFaceEmbeddings
-
-# # # Embeddings & vector store
+# # # Embeddings + vector store
 # # sentence-transformers==3.1.1
-# # faiss-cpu==1.9.0
+# # faiss-cpu==1.12.0              # ← fixed line (or just faiss-cpu)
 
-# # # Torch (CPU-only for Render)
+# # # Torch CPU-only (smaller/faster install on Render)
 # # torch==2.4.1 --index-url https://download.pytorch.org/whl/cpu
-# # torchaudio==2.4.1 --index-url https://download.pytorch.org/whl/cpu
 # # torchvision==0.19.1 --index-url https://download.pytorch.org/whl/cpu
+# # torchaudio==2.4.1 --index-url https://download.pytorch.org/whl/cpu
 
-# # # Optional but recommended
+# # # Optional but nice
 # # pydantic==2.9.2
 # # pydantic-settings==2.5.2
 
-# # # Testing (optional)
+# # # Testing
 # # pytest==8.3.3
+
 
 # fastapi==0.115.0
 # uvicorn[standard]==0.32.0
@@ -50,29 +80,28 @@
 # python-dotenv==1.0.1
 # requests==2.32.5
 
-# # LangChain (current stable as of Nov 2025)
+# # LangChain – current stable line (Nov 2025)
 # langchain==0.3.7
 # langchain-community==0.3.7
 # langchain-core==0.3.8
 # langchain-ollama==0.2.0
-# langchain-huggingface==0.1.2   # this fixed your previous crash
+# langchain-huggingface==0.1.2
 
-# # Embeddings + vector store
+# # Embeddings & vector store
 # sentence-transformers==3.1.1
-# faiss-cpu==1.12.0              # ← fixed line (or just faiss-cpu)
+# faiss-cpu==1.12.0
 
-# # Torch CPU-only (smaller/faster install on Render)
-# torch==2.4.1 --index-url https://download.pytorch.org/whl/cpu
-# torchvision==0.19.1 --index-url https://download.pytorch.org/whl/cpu
-# torchaudio==2.4.1 --index-url https://download.pytorch.org/whl/cpu
+# # Torch CPU-only (latest available wheels)
+# torch==2.9.1 --index-url https://download.pytorch.org/whl/cpu
+# torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cpu
+# torchaudio==2.9.1 --index-url https://download.pytorch.org/whl/cpu
 
-# # Optional but nice
+# # Nice to have
 # pydantic==2.9.2
 # pydantic-settings==2.5.2
 
-# # Testing
+# # Testing (optional)
 # pytest==8.3.3
-
 
 fastapi==0.115.0
 uvicorn[standard]==0.32.0
@@ -80,25 +109,25 @@ python-multipart==0.0.9
 python-dotenv==1.0.1
 requests==2.32.5
 
-# LangChain – current stable line (Nov 2025)
+# LangChain – current stable
 langchain==0.3.7
 langchain-community==0.3.7
 langchain-core==0.3.8
 langchain-ollama==0.2.0
 langchain-huggingface==0.1.2
 
-# Embeddings & vector store
+# Embeddings + vector store
 sentence-transformers==3.1.1
 faiss-cpu==1.12.0
 
-# Torch CPU-only (latest available wheels)
+# Torch CPU-only – latest wheels that are actually still available
 torch==2.9.1 --index-url https://download.pytorch.org/whl/cpu
-torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cpu
+torchvision==0.24.1 --index-url https://download.pytorch.org/whl/cpu
 torchaudio==2.9.1 --index-url https://download.pytorch.org/whl/cpu
 
-# Nice to have
+# Optional but recommended
 pydantic==2.9.2
 pydantic-settings==2.5.2
 
-# Testing (optional)
+# Testing
 pytest==8.3.3
