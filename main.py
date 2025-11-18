@@ -536,7 +536,7 @@
 #         print("\nUnable to classify. Please try again.")
 
 
-# main.py — FINAL VERSION FOR RENDER FREE TIER (lazy + tiny memory)
+# main.py — FINAL WORKING VERSION FOR RENDER FREE TIER
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from langchain_core.prompts import ChatPromptTemplate
@@ -547,6 +547,8 @@ import os
 import torch
 from functools import lru_cache
 import logging
+import requests
+import re
 
 # ------------------- MEMORY FIXES -------------------
 torch.set_num_threads(1)
@@ -558,49 +560,54 @@ logger = logging.getLogger(__name__)
 CUSTOMER_FILE = "data/customer_file.txt"
 FIBRE_FILE = "data/fibre_file.txt"
 
-# ------------------- LAZY RETRIEVER (this saves your life) -------------------
+# ------------------- LAZY RETRIEVER (saves you from OOM) -------------------
 @lru_cache(maxsize=1)
 def get_cached_retriever():
-    logger.info("First request → loading embeddings + FAISS (15–20s cold start)...")
+    logger.info("First request → loading embeddings + FAISS (~15–25s cold start)...")
     return get_retriever(CUSTOMER_FILE, FIBRE_FILE)
 
-# ------------------- LLM (your OkeyMeta) -------------------
+# ------------------- OkeyMeta LLM -------------------
 from langchain_core.language_models import LLM
 from langchain_core.outputs import Generation, LLMResult
-import requests
 
 class OkeyMetaLLM(LLM):
     token: str = os.getenv("OKEYMETA_TOKEN", "okeyai_65b110107b482d2b58ba9192a05457565d278862a785c21208910defe653020e")
     base_url: str = "https://api.okeymeta.com.ng/api/ssailm/model/okeyai3.0-vanguard/okeyai"
 
     def _call(self, prompt: str, **kwargs) -> str:
-        url = f"{self.base_url}?input={requests.utils.quote proportionality(prompt)}"
+        # ← FIXED LINE
+        url = f"{self.base_url}?input={requests.utils.quote(prompt)}"
         headers = {"Authorization": f"Bearer {self.token}"}
         r = requests.get(url, headers=headers, timeout=60)
         data = r.json()
         return (data.get("output") or data.get("response") or "").strip()
 
     @property
-    def _llm_type(self) -> str: return "okeymeta"
+    def _llm_type(self) -> str:
+        return "okeymeta"
+
     def _generate(self, prompts, **kwargs) -> LLMResult:
         return LLMResult(generations=[[Generation(text=self._call(p))] for p in prompts])
 
 model = OkeyMetaLLM()
 
 # ------------------- Chains -------------------
-classify_tpl = ChatPromptTemplate.from_template("Classify as customer or fibre ONLY.\nExamples:\n{examples}\nComplaint: {complaint}\nAnswer:")
-solution_tpl = ChatPromptTemplate.from_template("Short empathetic solution (<100 words).\nType: {classification}\nComplaint: {complaint}\nResponse:")
+classify_tpl = ChatPromptTemplate.from_template(
+    "Classify as customer or fibre ONLY. No extra text.\nExamples:\n{examples}\nComplaint: {complaint}\nAnswer:"
+)
+solution_tpl = ChatPromptTemplate.from_template(
+    "Short empathetic solution (<100 words).\nType: {classification}\nComplaint: {complaint}\nResponse:"
+)
 
 classify_chain = classify_tpl | model
 solution_chain = solution_tpl | model
 
-import re
-def extract(text): 
+def extract(text: str) -> str:
     m = re.search(r"\b(customer|fibre)\b", text.lower())
     return m.group(1) if m else "unknown"
 
 # ------------------- FastAPI -------------------
-app = FastAPI()
+app = FastAPI(title="Support Classifier")
 
 class Req(BaseModel):
     complaint: str
@@ -614,7 +621,7 @@ async def classify(req: Req):
     if not req.complaint.strip():
         raise HTTPException(400, "Empty complaint")
 
-    retriever = get_cached_retriever()  # ← lazy load here
+    retriever = get_cached_retriever()  # ← lazy load here = no OOM on startup
     docs = retriever.invoke(req.complaint)
     examples = "\n".join(f"{d.metadata.get('category','?').capitalize()}: {d.page_content}" for d in docs)
 
@@ -630,4 +637,5 @@ async def classify(req: Req):
     return Resp(classification=classification, solution=solution)
 
 @app.get("/health")
-def health(): return {"status": "healthy", "memory_optimized": True}
+def health():
+    return {"status": "healthy", "lazy_loading": True}
