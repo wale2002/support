@@ -1,0 +1,20 @@
+My Kulean Pay wallet balance is showing the wrong amount.
+I sent money to another Kulean Pay user but they haven’t received it.
+My transaction has been pending for over an hour.
+I can't log in to my Kulean Pay account, it keeps saying “Invalid credentials”.
+The app keeps crashing whenever I try to make a payment.
+I was double-charged for the same transaction.
+My card was debited but the payment on Kulean Pay failed.
+I am not receiving OTP codes to complete my login.
+My withdrawal to my bank is taking too long.
+I made a payment using Kulean Pay but the merchant didn’t get the confirmation.
+The Kulean Pay app is too slow on my phone.
+I can't update my phone number on my profile.
+The identity verification (KYC) keeps failing even with correct documents.
+The app won’t let me reset my password.
+My virtual card is declining for online purchases.
+My QR scan payment failed at checkout.
+I cannot see my transaction history for last month.
+I mistakenly sent money to the wrong user and need help reversing it.
+I’m unable to upgrade my account tier due to errors.
+The customer support chat on Kulean Pay is not responding.

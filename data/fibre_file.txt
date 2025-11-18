@@ -1,0 +1,20 @@
+Internet speed is extremely slow while using Kulean Pay services.
+The fibre connection keeps dropping during transactions.
+There was a fibre outage in my area and I can’t use the app reliably.
+Kulean Pay loads very slowly due to unstable fibre connectivity.
+Fibre cable damage in my estate is affecting app payments.
+Peak-hour congestion makes transactions fail frequently.
+The fibre latency is too high and causes app timeouts.
+I get “network error” messages when fibre internet fluctuates.
+My router isn’t syncing properly, affecting Kulean Pay operations.
+Kulean Pay pages take too long to load when using fibre.
+Frequent fibre maintenance causes repeated disconnections.
+The fibre signal weakens at night and affects payment processing.
+Fibre backbone issues are causing slow authentication on the app.
+I can’t complete transfers due to fibre-related connection errors.
+My fibre modem restarts randomly and interrupts transactions.
+There is heavy packet loss on my fibre connection.
+Fibre routing issues are delaying OTP deliveries.
+DNS problems on the fibre network cause Kulean Pay to fail loading.
+Fibre internet is unstable after a storm and affects app performance.
+A regional fibre outage prevents me from accessing Kulean Pay completely.
